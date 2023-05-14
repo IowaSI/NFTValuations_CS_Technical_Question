@@ -3,7 +3,8 @@ using System.Numerics;
 using System.Net.Http;
 using NFTValuations.Models;
 using System;
-using UriParser = NFTValuations.UriParser;
+using UrlParser = NFTValuations.UrlParser;
+using System.Text;
 
 namespace HelloWorld
 {
@@ -28,7 +29,7 @@ namespace HelloWorld
                 new ContractAddressModel { TokenId = 2000000, Address = "0x059edd72cd353df5106d2b9cc5ab83a52287ac3a" },
                 new ContractAddressModel { TokenId = 1000001, Address = "0x1b829b926a14634d36625e60165c0770c09d02b2" },
                 new ContractAddressModel { TokenId = 1, Address = "0xd4e4078ca3495de5b1d4db434bebc5a986197782" },
-                new ContractAddressModel { TokenId = 0, Address = "0x892848074ddea461a15f337250da3ce55580ca85" },
+                new ContractAddressModel { TokenId = 0, Address = "0x892848074ddea461a15f337250da3ce55580ca85" }
             };
             var extractor = new NFTMetadataExtractor();
 
@@ -43,18 +44,19 @@ namespace HelloWorld
                     Console.WriteLine($"{address.Address},{address.TokenId}");
                     Console.WriteLine("NFT Metadata:");
                     Console.WriteLine(metadata);
-                    
-                    var metadataContent = UriParser.Parse(metadata);
+
+                    var metadataContent = UrlParser.Parse(metadata);
 
                     Console.WriteLine("NFT metadataContent:");
                     Console.WriteLine(metadataContent);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error:{ex.Message} for address: {address.Address}, tokenId: {address.TokenId}");
+                    Console.WriteLine("*************ERROR*************");
+                    Console.WriteLine($"Error:{ex.Message} for address: {address.Address}, tokenId: {address.TokenId}, innerException: {ex.InnerException?.Message}");
                 }
             }
             Console.ReadKey();
-        }    
+        }
     }
 }
